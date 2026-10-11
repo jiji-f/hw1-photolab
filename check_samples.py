@@ -1,5 +1,6 @@
 """Print measurements for the course images without changing out/."""
 import json
+import argparse
 from pathlib import Path
 
 import cv2
@@ -9,7 +10,13 @@ import photolab as pl
 
 
 def main():
-    lectures = Path(__file__).resolve().parents[3] / "lectures"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--lectures", type=Path, help="Path to the course lectures folder")
+    args = parser.parse_args()
+    lectures = args.lectures or next((parent / "lectures" for parent in Path(__file__).resolve().parents
+                                     if (parent / "lectures").is_dir()), None)
+    if lectures is None:
+        parser.error("course images are required: use --lectures PATH_TO_COURSE/lectures")
     building = pl.imread(str(lectures / "L05-filtering/demo/iu-building.jpg"))
     reference = pl.lanczos_reference(building, 0.25)
     psnr = {m: round(pl.psnr(reference, pl.resize_aa(building, 0.25, m)), 1)

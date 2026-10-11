@@ -29,3 +29,4 @@ python -m pytest tests -q
 Шаблон CI лежит в `.github/workflows`. Если эту папку копируют в отдельный репозиторий Classroom, её содержимое должно находиться в корне этого репозитория вместе с `photolab.py`, `requirements.txt` и `tests`.
 
 
+`check_samples.py` для отдельного репозитория: `python check_samples.py --lectures D:/CV/iu-intro-cv/lectures` (подставьте свой путь к курсу).
